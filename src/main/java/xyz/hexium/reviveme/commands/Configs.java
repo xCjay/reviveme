@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Configs implements CommandExecutor, TabCompleter {
-    private final JavaPlugin plugin;
+    private final ReviveMe plugin;
 
     public Configs(ReviveMe plugin) {
         this.plugin = plugin;
@@ -74,10 +74,10 @@ public class Configs implements CommandExecutor, TabCompleter {
         } else if (setting.equalsIgnoreCase("reviveRadius")) {
             // Handle reviveRadius setting similarly
             plugin.getConfig().set("reviveRadius", Integer.parseInt(args[2]));
-            plugin.reloadConfig();
         } else {
             sender.sendMessage("Unknown setting: " + setting);
         }
+        plugin.reloadConfigs();
 
         return true;
     }

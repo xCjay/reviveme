@@ -14,19 +14,17 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class RevivalSystem {
-    private ReviveMe plugin;
+    private final ReviveMe plugin;
     private Map<Player, Integer> revivalTimers; // Track time players have been in the radius
     private BukkitTask revivalTask;
 
-    private boolean playerInRing;
-
     public RevivalSystem(ReviveMe plugin) {
         this.plugin = plugin;
-        this.revivalTimers = new HashMap();
+        this.revivalTimers = new HashMap<>();
     }
 
     public void startRevivalSystem(Player knockedPlayer, int radius, int revivalTimeInSeconds) {
-        plugin.getLogger().info("Starting revival system for " + knockedPlayer.getName());
+//        plugin.getLogger().info("Starting revival system for " + knockedPlayer.getName());
 
         revivalTask = new BukkitRunnable() {
             @Override
@@ -45,12 +43,11 @@ public class RevivalSystem {
                     } else {
                         int timeElapsed = revivalTimers.get(nearbyPlayer);
                         timeElapsed++;
-                        plugin.getLogger().info(nearbyPlayer.getName() + " has been in " + knockedPlayer.getName() + "'s revival ring for " + timeElapsed + " seconds.   " + (revivalTimeInSeconds-timeElapsed) + " more seconds required.");
+//                        plugin.getLogger().info(nearbyPlayer.getName() + " has been in " + knockedPlayer.getName() + "'s revival ring for " + timeElapsed + " seconds.   " + (revivalTimeInSeconds-timeElapsed) + " more seconds required.");
 
                         // If a player has been in the radius for the required time, trigger revival logic
                         if (timeElapsed >= revivalTimeInSeconds) {
-                            // Perform the revival logic here
-                            // For example: revive the knockedPlayer
+
                             revivePlayer(knockedPlayer);
 
                             // Remove the player from the timers map
@@ -97,14 +94,12 @@ public class RevivalSystem {
         }
     }
 
-    // Add a method to cancel the revival system
     public void cancelRevivalSystem() {
         if (revivalTask != null) {
             revivalTask.cancel();
         }
     }
 
-    // Implement your revivePlayer method as needed
     private void revivePlayer(Player player) {
         plugin.revivePlayer(player, false);
     }

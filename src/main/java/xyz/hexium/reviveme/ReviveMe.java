@@ -2,8 +2,6 @@ package xyz.hexium.reviveme;
 
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,9 +14,6 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.util.RayTraceResult;
-import org.bukkit.util.Vector;
 import xyz.hexium.reviveme.commands.CheckKnocked;
 import xyz.hexium.reviveme.commands.Configs;
 import xyz.hexium.reviveme.commands.Knock;
@@ -30,13 +25,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 public final class ReviveMe extends JavaPlugin implements Listener {
 
     public ArrayList<CountdownTimer> timers;
-
-    private FileConfiguration config;
 
     private static boolean banOnDeath;
     private static int reviveTime;
@@ -118,14 +110,14 @@ public final class ReviveMe extends JavaPlugin implements Listener {
         Location location = event.getPlayer().getLocation();
 
         Player player = event.getEntity();
-        getLogger().info(player.getName() + " has died! -ReviveMe");
+//        getLogger().info(player.getName() + " has died! -ReviveMe");
 
 
 
         knockPlayer(player, location);
     }
 
-    //on player move listener
+
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
@@ -148,7 +140,7 @@ public final class ReviveMe extends JavaPlugin implements Listener {
 
         try {
             return container.get(KNOCKED_KEY, PersistentDataType.BYTE) == 1;
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
             // Handle the exception, e.g., log an error message
             getLogger().severe("Failed to get 'knocked' tag: " + e.getMessage());
             return false;
@@ -159,7 +151,7 @@ public final class ReviveMe extends JavaPlugin implements Listener {
         try {
             player.getPersistentDataContainer().set(KNOCKED_KEY, PersistentDataType.BYTE, (byte) value);
 
-            getLogger().info("set tag to: " + player.getPersistentDataContainer().get(KNOCKED_KEY, PersistentDataType.BYTE));
+//            getLogger().info("set tag to: " + player.getPersistentDataContainer().get(KNOCKED_KEY, PersistentDataType.BYTE));
         } catch (IllegalArgumentException e) {
             // Handle the exception, e.g., log an error message
             getLogger().severe("Failed to set 'knocked' tag: " + e.getMessage());
