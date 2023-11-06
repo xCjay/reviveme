@@ -1,0 +1,22 @@
+name: ReviveMe
+version: '1.0-SNAPSHOT'
+main: xyz.hexium.reviveme.ReviveMe
+api-version: '1.20'
+commands:
+  revive:
+    description: Revive a player
+    usage: /revive <player>
+    permission: reviveme.revive
+    aliases: [rev]
+  knock:
+    description: Knock a player out
+    usage: /knock <player>
+    permission: reviveme.knock
+  checkknocked:
+    description: Check if a player is knocked out
+    usage: /checkknocked <player>
+    permission: reviveme.checkknocked
+    aliases: [ck]
+  rmconfig:
+    description: Manage plugin configurations
+    usage: /rmconfig <option> <action> [value]
