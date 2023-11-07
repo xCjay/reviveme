@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public final class ReviveMe extends JavaPlugin implements Listener {
 
@@ -120,6 +122,18 @@ public final class ReviveMe extends JavaPlugin implements Listener {
         if (hasKnockedTag(event.getEntity())) {
             return;
         }
+
+        //if player is in creative return
+        if (event.getEntity().getGameMode() == GameMode.CREATIVE){
+            return;
+        }
+
+        //if player dies from void return
+        if (Objects.requireNonNull(event.getEntity().getLastDamageCause()).getCause() == EntityDamageEvent.DamageCause.VOID){
+            fullKillPlayer(event.getPlayer());
+            return;
+        }
+
         event.setCancelled(true);
 
         Location location = event.getPlayer().getLocation();
@@ -278,7 +292,6 @@ public final class ReviveMe extends JavaPlugin implements Listener {
         if (banOnDeath){
             Bukkit.getScheduler().runTask(ReviveMe.getInstance(), () -> {
                 //ban player
-                Bukkit.getServer().banIP(player.getAddress().getAddress().getHostAddress());
                 Bukkit.getServer().getBanList(org.bukkit.BanList.Type.NAME).addBan(player.getName(), "You have been banned for dying.", null, null);
 
                 //kick player
