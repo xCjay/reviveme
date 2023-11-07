@@ -1,5 +1,5 @@
 name: ReviveMe
-version: '1.0-SNAPSHOT'
+version: '1.0-ALPHA'
 main: xyz.hexium.reviveme.ReviveMe
 api-version: '1.20'
 commands:

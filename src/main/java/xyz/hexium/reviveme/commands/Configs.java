@@ -64,21 +64,38 @@ public class Configs implements CommandExecutor, TabCompleter {
                 sender.sendMessage("Usage: /rmconfig banOnDeath <set/get> [value]");
             }
         } else if (setting.equalsIgnoreCase("reviveTime")) {
-            // Handle reviveTime setting similarly
-            plugin.getConfig().set("reviveTime", Integer.parseInt(args[2]));
-            plugin.reloadConfig();
+            if (action.equalsIgnoreCase("set") && args.length > 2) {
+                // Set the value
+                int value = Integer.parseInt(args[2]);
+                // Save the value to your config or data storage
+                plugin.getConfig().set("reviveTime", value);
+                plugin.saveConfig();
+                sender.sendMessage("reviveTime set to " + value);
+            } else if (action.equalsIgnoreCase("get")) {
+                // Get the value
+                int value = plugin.getConfig().getInt("reviveTime");
+                sender.sendMessage("reviveTime is set to " + value);
+            } else {
+                sender.sendMessage("Usage: /rmconfig reviveTime <set/get> [value]");
+            }
         } else if (setting.equalsIgnoreCase("reviveTimeLimit")) {
-            // Handle reviveTimeLimit setting similarly
-            plugin.getConfig().set("reviveTimeLimit", Integer.parseInt(args[2]));
-            plugin.reloadConfig();
-        } else if (setting.equalsIgnoreCase("reviveRadius")) {
-            // Handle reviveRadius setting similarly
-            plugin.getConfig().set("reviveRadius", Integer.parseInt(args[2]));
-        } else {
-            sender.sendMessage("Unknown setting: " + setting);
+            if (action.equalsIgnoreCase("set") && args.length > 2) {
+                // Set the value
+                long value = Long.parseLong(args[2]);
+                // Save the value to your config or data storage
+                plugin.getConfig().set("reviveTimeLimit", value);
+                plugin.saveConfig();
+                sender.sendMessage("reviveTimeLimit set to " + value);
+            } else if (action.equalsIgnoreCase("get")) {
+                // Get the value
+                long value = plugin.getConfig().getLong("reviveTimeLimit");
+                sender.sendMessage("reviveTimeLimit is set to " + value);
+            } else {
+                sender.sendMessage("Usage: /rmconfig reviveTimeLimit <set/get> [value]");
+            }
+            plugin.reloadConfigs();
         }
-        plugin.reloadConfigs();
 
-        return true;
+        return false;
     }
 }

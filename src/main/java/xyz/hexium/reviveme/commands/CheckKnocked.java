@@ -12,22 +12,25 @@ import xyz.hexium.reviveme.ReviveMe;
 public class CheckKnocked implements CommandExecutor {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+        // If no arguments are given, show usage
+        if (args.length == 0) {
+            sender.sendMessage(ChatColor.RED + "Please specify a player to check the knock on.");
+            return true;
+        }
+
         Player player = Bukkit.getPlayer(args[0]);
         if (player == null) {
             sender.sendMessage(ChatColor.RED + "Player not found.");
             return true;
         }
 
-        //Send user message that reports the argumented users knocked status
+        // Send user message that reports the argumented user's knocked status
         if (cmd.getName().equalsIgnoreCase("checkknocked")) {
-            if (args.length == 0) {
-                sender.sendMessage("Please specify a player to check.");
-                return true;
-            }
             sender.sendMessage(args[0] + " is " + (ReviveMe.getInstance().hasKnockedTag(player) ? "knocked" : "not knocked"));
             return true;
         }
         return false;
     }
+
 }

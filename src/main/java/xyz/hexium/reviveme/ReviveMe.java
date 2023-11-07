@@ -58,6 +58,21 @@ public final class ReviveMe extends JavaPlugin implements Listener {
 
         File configFile = new File(getDataFolder(), "config.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+
+
+        //if config file is empty, fill with default values
+        if (!configFile.exists()) {
+            config.set("banOnDeath", false);
+            config.set("reviveTime", 20);
+            config.set("reviveRadius", 5);
+            config.set("reviveTimeLimit", 600);
+            try {
+                config.save(configFile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         banOnDeath = config.getBoolean("banOnDeath");
         reviveTime = (config.getInt("reviveTime"));
         reviveRadius = config.getInt("reviveRadius");
